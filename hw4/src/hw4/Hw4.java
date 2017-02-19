@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 
-public class mvc {
+public class Hw4 {
 	
 	public static final String FileLocation = "/Users/CK/Desktop/input.txt";
 	public static HashMap<Integer, LinkedList<Integer>> adjListMap;
