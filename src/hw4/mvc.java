@@ -6,7 +6,6 @@
 package hw4;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,12 +14,38 @@ import java.util.LinkedList;
 public class mvc {
 	
 	public static final String FileLocation = "/Users/CK/Desktop/input.txt";
-	//LinkedList<Integer> adjList;
-	HashMap<Integer, LinkedList<Integer>> adjListMap;
+	public static HashMap<Integer, LinkedList<Integer>> adjListMap;
+	public static int nodes;
+	public static int edges;
 
 	public static void main(String[] args) {
-		//To parse the input file. 
-		//HashMap IOAdjList = InputGraph();
+		try{
+		InputGraph();
+		///*InputGraph() Testing:
+		System.out.println("Adjacency List for the graph is: \n");
+		for(int i=1; i<=nodes; i++){
+			System.out.print(i + "= {");
+			LinkedList<Integer> testEdgeList = new LinkedList<>();
+			testEdgeList = getEdges(i);
+			int maxIndex = testEdgeList.size();
+			int count = 1;
+			for (int j: testEdgeList){
+				if(count == maxIndex){
+					System.out.print(j + " }");
+				}
+				else{
+				System.out.print(j + ", ");
+				count += 1;
+				}
+			}
+			System.out.println();
+		} 
+		//*/
+	}
+		
+		catch (FileNotFoundException ex){
+			System.err.println("File not found: " + ex);
+		}
 	}
 	
 	/*
@@ -29,7 +54,7 @@ public class mvc {
 	 * @Description (Creates keys in HashMap after parsing 
 	 * the # of nodes from input) 
 	 */
-	public void createVertices (int nodes){
+	public static void createVertices (int nodes){
 		adjListMap = new HashMap<>();
 		for (int i=1; i<=nodes; i++){
 			adjListMap.put(i, new LinkedList<Integer>());
@@ -44,7 +69,7 @@ public class mvc {
 	 * are added to the list of the vertex. 
 	 */
 	
-	public void createEdges(int u, int v){
+	public static void createEdges(int u, int v){
 		//Make sure vertices u & v are within the range of given nodes.
 		if (u > adjListMap.size() || v > adjListMap.size()){
 			System.out.println("These vertices dont belong to this graph");
@@ -67,11 +92,11 @@ public class mvc {
 	 * 		   and ArrayLists
 	 */
 	
-	public HashMap<Integer,LinkedList<Integer>> InputGraph() throws FileNotFoundException {
+	public static HashMap<Integer,LinkedList<Integer>> InputGraph() throws FileNotFoundException {
 		File inputFile = new File(FileLocation);
 		Scanner sc = new Scanner(inputFile);
-		int nodes = sc.nextInt();
-		int edges = sc.nextInt();
+		nodes = sc.nextInt();
+		edges = sc.nextInt();
 		//Create the HashMap using nodes as Keys
 		createVertices(nodes);
 		int count = 0;
@@ -84,6 +109,16 @@ public class mvc {
 		}
 		sc.close();
 		return adjListMap;
+	}
+	
+	/*
+	 * Getters for InputGraph()
+	 */
+	
+	public static LinkedList<Integer> getEdges (int u){
+		LinkedList<Integer> edgesList = new LinkedList<>();
+		edgesList = adjListMap.get(u);
+		return edgesList;
 	}
 	
 }
