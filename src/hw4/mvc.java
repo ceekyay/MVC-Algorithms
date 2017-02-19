@@ -36,6 +36,28 @@ public class mvc {
 		}
 	}
 	
+	/*
+	 * @param int u, int v
+	 * u,v are vertex pairs (edges)
+	 * @return nothing
+	 * @Description vertices of an edge
+	 * are added to the list of the vertex. 
+	 */
+	
+	public void createEdges(int u, int v){
+		//Make sure vertices u & v are within the range of given nodes.
+		if (u > adjListMap.size() || v > adjListMap.size()){
+			System.out.println("These vertices dont belong to this graph");
+		}
+		//Grab the corresponding edge lists of the vertices.
+		LinkedList<Integer> uVertex = adjListMap.get(u);
+		LinkedList<Integer> vVertex = adjListMap.get(v);
+		//Adds the v vertex as a corresponding edge to vertex u.
+		uVertex.add(v);
+		//Adds the u vertex as a corresponding edge to vertex v.
+		vVertex.add(u);
+	}
+	
 	
 	
 	/*
@@ -45,23 +67,23 @@ public class mvc {
 	 * 		   and ArrayLists
 	 */
 	
-	public HashMap<Integer,ArrayList<Integer>> InputGraph() throws FileNotFoundException {
+	public HashMap<Integer,LinkedList<Integer>> InputGraph() throws FileNotFoundException {
 		File inputFile = new File(FileLocation);
 		Scanner sc = new Scanner(inputFile);
-		ArrayList<Integer> adjListArray = new ArrayList<>();
-		HashMap<Integer, ArrayList<Integer>> adjListMap = new HashMap<>();
 		int nodes = sc.nextInt();
 		int edges = sc.nextInt();
+		//Create the HashMap using nodes as Keys
+		createVertices(nodes);
 		int count = 0;
-		//Input file must have an int and iteration < edges 
-		//so another graph will not be added.
 		//Should I prep the code for having multiple graphs in the txt file?
 		while (sc.hasNextInt() && (count<edges)){
-			
+			int u = sc.nextInt();
+			int v = sc.nextInt();
+			createEdges(u,v);
+			count += 1;
 		}
-		
+		sc.close();
+		return adjListMap;
 	}
 	
-	return adjListMap;
-
 }
