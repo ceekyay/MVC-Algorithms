@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Collections;
 
 
 public class Hw4 {
@@ -19,9 +22,9 @@ public class Hw4 {
     public static int edges;
     
     public static void main(String[] args) {
-        try{
+        /* try{
             InputGraph();
-            ///*InputGraph() Testing:
+            /*InputGraph() Testing:
             System.out.println("Adjacency List for the graph is: \n");
             for(int i=1; i<=nodes; i++){
                 System.out.print(i + "= {");
@@ -40,11 +43,33 @@ public class Hw4 {
                 }
                 System.out.println();
             }
-            //*/
-        }
+            */
+            
+            ///*RandomGraph() Testing:
+            RandomGraph(20,5,0.5,0.8,0.7);
+            System.out.println("Adjacency List for the Random graph is: \n");
+            for(int i=1; i<=nodes; i++){
+                System.out.print(i + "= {");
+                LinkedList<Integer> testEdgeList = new LinkedList<>();
+		testEdgeList = getEdges(i);
+		int maxIndex = testEdgeList.size();
+                int count = 1;
+		for (int j: testEdgeList){
+                    if(count == maxIndex){
+                        System.out.print(j + " }");
+                    }
+                    else{
+                        System.out.print(j + ", ");
+                        count += 1;
+                    }
+                }
+                System.out.println();
+            }
+            
+       /* }
         catch (FileNotFoundException ex){
             System.err.println("File not found: " + ex);
-        }
+        } */
     }
     
     /*
@@ -81,7 +106,6 @@ public class Hw4 {
     //Adds the u vertex as a corresponding edge to vertex v.
     vVertex.add(u);
     }
-    
     /*
     * @param Input file for ex: .txt 
     * containing non-negative integers
@@ -119,5 +143,67 @@ public class Hw4 {
     }
     
     
+    /* Question 2: RandomGraph() begins here
+    *
+    */
+     
+     public static ArrayList<Integer> unsortedVertices(int n1n2){
+         ArrayList<Integer> vs = new ArrayList<>();
+         for (int i=0; i<n1n2; i++ ){
+             vs.add(i+1);
+         }
+         Collections.shuffle(vs);
+         return vs;
+     }
     
+    public static boolean probabilityCheck(double p){
+        Random rd = new Random();
+        double edgeProbability = rd.nextDouble();
+        //Returns TRUE if the (u,v) edge probability is higher or equal to p1.
+        return p <= edgeProbability;
+    }
+    
+    public static HashMap<Integer,LinkedList<Integer>> RandomGraph(int n1, int n2, double p1, double p2, double p3){
+        nodes = n1;
+        int maxVertices = 0;
+        if (n1 == 0 && n2 == 0){
+            System.out.println("Please enter valid vertices");
+        }
+        
+        if (n1 > 0 && n2 ==0){
+            createVertices(n1);
+            for (int u=1; u<=n1; u++){
+                for (int v=u+1; v<=n1; v++){
+                    if(probabilityCheck(p1) == true){
+                        createEdges(u,v);
+                    }
+                }
+            }
+        }
+        if (n1==0 && n2 > 0){
+            createVertices(n2);
+            for (int u=1; u<=n2; u++){
+                for (int v=u+1; v<=n2; v++){
+                    if(probabilityCheck(p2) == true){
+                        createEdges(u,v);
+                    }
+                }
+            }
+        }
+        if(n1>0 && n2>0){
+        int sumOfPartitions = n1 + n2;
+        createVertices(sumOfPartitions);
+        ArrayList<Integer> vertices = unsortedVertices(sumOfPartitions);
+        for(int u=0; u<n1; u++){
+            for(int v=0; v<n2; v++){
+                if(probabilityCheck(p3)==true){
+                    createEdges(vertices.get(u), vertices.get(n1+v));
+                }
+            }
+        }
+        }
+        return adjListMap;
+
+    }
 }
+
