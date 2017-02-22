@@ -46,7 +46,7 @@ public class Hw4 {
             */
             
             ///*RandomGraph() Testing:
-            RandomGraph(20,5,0.5,0.8,0.7);
+            RandomGraph(20,0,0.9,0.8,0.7);
             System.out.println("Adjacency List for the Random graph is: \n");
             for(int i=1; i<=nodes; i++){
                 System.out.print(i + "= {");
@@ -205,5 +205,12 @@ public class Hw4 {
         return adjListMap;
 
     }
+    
+    /* Q3: Greedy Algorithm
+    *
+    */
+    
+    
+    
 }
 
